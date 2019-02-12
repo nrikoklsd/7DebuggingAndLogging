@@ -1,0 +1,155 @@
+Configuration:
+  name: Log4j2_Config
+  Properties:
+    Property:
+      name: log-path
+      value: logs
+
+  Appenders:
+
+    Console:
+      name: Console_Appender
+      PatternLayout:
+        Pattern: "%highlight{%-5level}{FATAL=bg_red} %style{%date{yyyy-MM-dd HH:mm:ss.SSS}}{blue} %class{1}:%L - %highlight{%msg} %xEx{short}%n"
+          #Configure logger that in the console will be recorded only “INFO”
+          #Filters:
+          #ThresholdFilter:
+          #level: warn
+          #onMatch: DENY
+        #onMismatch: NEUTRAL
+
+#    File:
+#
+#    - #file will not be overwritten
+#      name: rootLogFile
+#      fileName: ${log-path}/rootFile.log
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n"
+#
+#    - #every day log will be written to a new file
+#      name: rootLogFile2
+#      fileName: ${log-path}/rootFile2-${date:yyyy-MM-dd}.log
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %class{1}:%L - %msg%xEx{short}%n"
+#
+#    - # all levels higher than “WARN” will be saved in the file
+#      name: logFileFilter4
+#      fileName: ${log-path}/fileFilter4.log
+#      Filters:
+#        ThresholdFilter:
+#          level: warn
+#          onMatch: DENY
+#          onMismatch: NEUTRAL
+#
+#    - # in the file will be recorded only “WARN”
+#      name: logFileFilter5
+#      fileName: ${log-path}/fileFilter5.log
+#      Filters:
+#        ThresholdFilter:
+#          level: warn
+#          onMatch: ACCEPT
+#          onMismatch: DENY
+
+#    RollingFile:
+#    - # file will be overwritten after reaching the size of 1MB
+#      name: rolFile1
+#      fileName: ${log-path}/rollingFile.log
+#      filePattern: "logs/archive/rolFile1.log.%d{yyyy-MM-dd}.gz"
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n"
+#      Policies:
+#        SizeBasedTriggeringPolicy:
+#          size: 1MB
+#
+#    - # every day log will be written to a new file
+#      name: rolFile3
+#      fileName: ${log-path}/rollingFile3.log
+#      filePattern: ${log-path}/archive/rolFile3-%d{yy-MM-dd}.log
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n"
+#      Policies:
+#        TimeBasedTriggeringPolicy:
+#          interval: 1
+#          modulate: true
+#
+#    - # file will be overwritten every day 10:15
+#      name: rolFile4
+#      fileName: ${log-path}/rollingFile4.log
+#      filePattern: ${log-path}/archive/rolFile4_old.log
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %class{1}:%L - %msg%xEx{short}%n"
+#      CronTriggeringPolicy:
+#        schedule: "0 15 10 ? * *"
+#        evaluateOnStartup: true
+#      DefaultRolloverStrategy:
+#        max: 1
+
+#    SMTP:
+#      name: MailAppender
+#      subject: "Error Log"
+#      to: "vercik94@mail.ru"
+#      from: "agamicrev@gmail.com"
+#      smtpHost: "smtp.gmail.com"
+#      smtpPort: 465
+#      smtpProtocol: smtps
+#      smtpUsername: "agamicrev@gmail.com"
+#      smtpPassword: "***********"
+#      bufferSize: 512
+#      HTMLLayout:
+#        charset: "UTF-8"
+#        title: "Logs from Nazar Senyk project task05_Log4j"
+#
+#    SMS:
+#      name: SMSsender
+#      PatternLayout:
+#        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss} - %msg %xEx{short}"
+#
+#    Async:
+#      name: AsyncSMS
+#      AppenderRef:
+#        ref: SMSsender
+
+  Loggers:
+    Root:
+      level: all
+      AppenderRef:
+      - ref: rootLogFile
+        level: debug
+
+    Logger:
+    -
+      name: task1
+      additivity: false
+      level: all
+      AppenderRef:
+      -
+        ref: Console_Appender
+        level: trace
+        #Configure logger that in the console will be recorded only “INFO”
+        #level: info
+#      -
+#        ref: rolFile1
+#        level: trace
+#      -
+#        ref: rolFile3
+#        level: trace
+#      -
+#        ref: rolFile4
+#        level: trace
+#      -
+#        ref: rootLogFile2
+#        level: info
+#      -
+#        ref: logFileFilter4
+#        level: warn
+#      -
+#        ref: logFileFilter5
+#        level: warn
+#
+#        #it works properly but I don't want to show my gmail password
+#        #-
+#        #ref: MailAppender
+#        #level: error
+#      -
+#        ref: AsyncSMS
+#        level: fatal
